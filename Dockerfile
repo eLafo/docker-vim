@@ -29,10 +29,10 @@ RUN apt-get update &&\
 RUN gem install homesick --no-rdoc --no-ri
 
 # Setting locale
-RUN apt-get install -y -qq --no-install-recommends locales
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen &&\
     sed -i -e 's/# es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/' /etc/locale.gen
-
+    
+RUN locale-gen en_US.UTF-8 es_ES.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
