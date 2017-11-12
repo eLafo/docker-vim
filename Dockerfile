@@ -52,6 +52,29 @@ RUN homesick clone eLafo/bash-dot-files &&\
 
 VOLUME $WORKSPACE_PATH
 
-WORKDIR $WORKSPACE_PATH
 
+USER root
+RUN apt-get install -y -qq --no-install-recommends \
+      curl\
+			apt-transport-https \
+			ca-certificates \
+			curl \
+      gnupg2 \
+      software-properties-common
+
+RUN curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg | apt-key add -
+RUN apt-key fingerprint 0EBFCD88
+RUN add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
+   $(lsb_release -cs) \
+   stable"
+
+RUN apt-get update
+RUN apt-get install -y -qq --no-install-recommends docker-ce
+
+RUN usermod -aG docker $USER_NAME
+#RUN curl -O https://download.docker.com/linux/ubuntu/dists/zesty/pool/stable/amd64/docker-ce_17.09.0~ce-0~ubuntu_amd64.deb
+#RUN dpkg -i docker-ce_17.09.0~ce-0~ubuntu_amd64.deb
+USER $USER_NAME
+WORKDIR $WORKSPACE_PATH
 ENTRYPOINT vim
