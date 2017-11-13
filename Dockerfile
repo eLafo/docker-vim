@@ -80,6 +80,9 @@ RUN homesick clone eLafo/bash-dot-files &&\
 RUN homesick clone eLafo/git-dot-files &&\
     homesick symlink --force=true git-dot-files
 
+# common bin tools
+ADD bin/* $BIN_PATH/
+
 VOLUME $WORKSPACE_PATH
 
 WORKDIR $WORKSPACE_PATH
