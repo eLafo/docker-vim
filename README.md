@@ -90,9 +90,9 @@ services:
 ```
 
 This configuration will provide your `vim` service with the following commands out of the box:
-- node
-- npm
-- eslint
+- [node](https://github.com/eLafo/docker-vim/blob/master/bin/node)
+- [npm](https://github.com/eLafo/docker-vim/blob/master/bin/npm)
+- [eslint](https://github.com/eLafo/docker-vim/blob/master/bin/eslint)
 
 ###### Note
 `node_modules` directory is expected to live under the root project
