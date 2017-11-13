@@ -7,13 +7,16 @@ ENV WORKSPACE_PATH=/workspace
 # USER CREATION #########
 ENV USER_NAME=dev
 ENV USER_HOME=/home/$USER_NAME
+ENV BIN_PATH=$USER_HOME/bin
 
-ENV PATH $USER_HOME:$PATH
+ENV PATH $BIN_PATH:$USER_HOME:$PATH
 
 # USER'S WORKSPACE
-RUN mkdir $WORKSPACE_PATH
 RUN adduser --disabled-password --gecos "" $USER_NAME
-RUN chown -R $USER_NAME:$USER_NAME $WORKSPACE_PATH
+RUN mkdir -p $WORKSPACE_PATH 
+RUN mkdir -p $BIN_PATH
+RUN chown -R $USER_NAME:$USER_NAME $WORKSPACE_PATH &&\
+    chown -R $USER_NAME:$USER_NAME $BIN_PATH
 
 # Libraries
 RUN apt-get update &&\
@@ -73,6 +76,9 @@ RUN homesick clone https://github.com/eLafo/vim-dot-files.git &&\
 
 RUN homesick clone eLafo/bash-dot-files &&\
     homesick symlink --force=true bash-dot-files
+
+RUN homesick clone eLafo/git-dot-files &&\
+    homesick symlink --force=true git-dot-files
 
 VOLUME $WORKSPACE_PATH
 
