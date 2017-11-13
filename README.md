@@ -51,7 +51,7 @@ There are (many) times that you need to run some commands like `ruby`, `rails`, 
 These containers must have the following properties:
 - They must have a bind volume in `/workspace` with the same content than the `vim` service
 - `vim` service must depend on it
-- They must be up, because internally, `vim` service will call `docker-compose exec` command
+- They must be up, because internally, `vim` service will call `docker-compose exec` command. Hence the `tail -f /dev/null` command
 
 #### Calling commands in development services
 Since `vim` must call some commands (e.g: `eslint`), you can write proxy commands like the following
