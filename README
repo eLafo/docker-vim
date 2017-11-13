@@ -78,7 +78,7 @@ and bind them to `/home/dev/bin`. e.g:
 
 #### Default development services
 ##### Node
-If you are developing a node project you can use the [elafo/dev-node]() service in your `docker-compose` file as long as you name it `dev-node`:
+If you are developing a node project you can use the [elafo/dev-node](https://github.com/elafo/docker-dev-node) service in your `docker-compose` file as long as you name it `dev-node`:
 
 ```
 services:
@@ -100,10 +100,10 @@ This configuration will provide your `vim` service with the following commands o
 Comming soon
 
 ## Configuration
-This image manages its configuration with versioned dot files, using [homesick](). The following repos contain this configuration:
-- [vim-dot-files](elafo/vim-dot-files)
-- [bash dot files](elafo/bash-dot-files)
-- [git-dot-files](elafo/git-dot-files)
+This image manages its configuration with versioned dot files, using [homesick](https://github.com/technicalpickles/homesick). The following repos contain this configuration:
+- [vim-dot-files](https://github.com/elafo/vim-dot-files)
+- [bash dot files](https://github.com/elafo/bash-dot-files)
+- [git-dot-files](https://github.com/elafo/git-dot-files)
 
 ### Extending bash dot files
 You can bind your own `bashrc scripts` to `/home/dev/.bashrc.d/` e.g:
