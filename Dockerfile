@@ -1,15 +1,27 @@
-FROM debian:jessie
+FROM ruby:2.3.3-slim
 MAINTAINER eLafo
 
 # DEVELOPMENT ENVIRONMENT CONFIGURATION #####
 ENV WORKSPACE_PATH=/workspace
+
+# RUBY
+ENV GEM_HOME /gems
+ENV BUNDLE_PATH $GEM_HOME
+ENV BUNDLE_BIN $BUNDLE_PATH/bin
+ENV BUNDLE_APP_CONFIG $APP_HOME/.bundle
+RUN mkdir $GEM_HOME
+
+# NODE
+ENV NODE_MODULES_PATH node_modules
+ENV NODE_MODULES_BIN_PATH $NODE_MODULES_PATH/.bin
 
 # USER CREATION #########
 ENV USER_NAME=dev
 ENV USER_HOME=/home/$USER_NAME
 ENV BIN_PATH=$USER_HOME/bin
 
-ENV PATH $BIN_PATH:$USER_HOME:$PATH
+ENV PATH $USER_HOME:$BUNDLE_BIN:$PATH:$NODE_MODULES_BIN_PATH
+ENV PATH $BIN_PATH:$USER_HOME:$BUNDLE_BIN:$PATH
 
 # USER'S WORKSPACE
 RUN adduser --disabled-password --gecos "" $USER_NAME
@@ -23,7 +35,6 @@ RUN apt-get update &&\
     echo "debconf debconf/frontend select Teletype" | debconf-set-selections && apt-get install -y -qq --no-install-recommends\
       vim\
       git\
-      ruby\
       silversearcher-ag\
       exuberant-ctags\
       locales\
@@ -35,6 +46,10 @@ RUN apt-get update &&\
 			curl \
       gnupg2 \
       software-properties-common
+
+# Installs node
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN apt-get install -q -y nodejs
 
 # Installs docker
 RUN curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg | apt-key add - &&\
@@ -80,11 +95,8 @@ RUN homesick clone eLafo/bash-dot-files &&\
 RUN homesick clone eLafo/git-dot-files &&\
     homesick symlink --force=true git-dot-files
 
-# common bin tools
-ADD bin/* $BIN_PATH/
-
 VOLUME $WORKSPACE_PATH
 
 WORKDIR $WORKSPACE_PATH
 
-ENTRYPOINT vim
+CMD vim
